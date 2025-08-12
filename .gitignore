@@ -28,3 +28,8 @@ local.settings.json
 
 # OS files
 .DS_Store
+
+#Information files
+Consulta_SQL_COSMODB.txt
+ProblemPortFunc.txt
+Solicitud1.docx
