@@ -1,0 +1,3 @@
+Inicio del frontend
+
+PS C:\Users\Elio-home\Desktop\organizer-one\client> npm run dev

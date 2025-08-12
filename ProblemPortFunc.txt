@@ -1,0 +1,50 @@
+¡Excelente! Esa línea que has pegado (http://localhost:7071/api/GeneradorReporte) confirma el problema.
+
+  Tu backend de Azure Functions se está ejecutando correctamente en el puerto 7071, pero tu frontend (Vite) está configurado para
+  buscarlo en el puerto 7077.
+
+  Necesitamos corregir el archivo de configuración de Vite para que apunte al puerto correcto. Voy a cambiar 7077 por 7071 en tu archivo
+  vite.config.js.
+
+ ╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+ │ ✔  Edit client\vite.config.js: target: 'http://localhost:7077... => target: 'http://localhost:7071...                                 │
+ │                                                                                                                                       │
+ │     7   server: {                                                                                                                     │
+ │     8     proxy: {                                                                                                                    │
+ │     9       '/api': {                                                                                                                 │
+ │    10 -       target: 'http://localhost:7077', // Azure Functions port                                                                │
+ │    10 +       target: 'http://localhost:7071', // Azure Functions port                                                                │
+ │    11         changeOrigin: true,                                                                                                     │
+ │    12       },                                                                                                                        │
+ │    13     },                                                                                                                          │
+ ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ Listo, he corregido el puerto en tu configuración de Vite.
+
+  Ahora, por favor, detén tu servidor de Vite (presionando Ctrl + C en la terminal donde se está ejecutando) y vuelve a iniciarlo con npm
+   run dev.
+
+¡Me alegra que funcione! Te explico de forma sencilla lo que pasó:
+
+  Imagina que tu frontend (la página web) y tu backend (la función de Azure) son dos personas que necesitan hablar por teléfono.
+
+   1. El Frontend (en el puerto 5173): Tenía anotado en su agenda (vite.config.js) que para hablar con el backend debía llamar al número
+      (puerto) 7077.
+   2. El Backend (la función): Por defecto, siempre contesta en el número (puerto) 7071. No había cambiado de número, simplemente usa su
+      línea de siempre.
+
+  El error ECONNREFUSED era el equivalente a que el frontend llamara al número 7077 y recibiera el tono de "este número no existe",
+  porque nadie estaba escuchando en esa línea.
+
+  ¿Por qué estaba el puerto incorrecto?
+
+  Lo más probable es que haya sido un error al escribir el archivo de configuración vite.config.js. Alguien escribió 7077 en lugar de
+  7071. La función de Azure nunca cambió de puerto; el problema era que el frontend tenía la dirección incorrecta para encontrarla.
+
+  Lo que hicimos fue corregir la agenda del frontend para que llamara al número correcto (7071), y por eso la comunicación funcionó
+  inmediatamente.
+
+
+Quiero que en vez de existir un campo llamado "Diferencia" ahora existan dos campos llamados "Diferencia a Cobrar" y "Diferecia a  │
+    Pagar", si el "Anticipo" es mayor que el "Monto Total de facturas" la Diferencia se coloque en un campo llamado "Diferencia a      │
+    pagar"   ahora si el "Anticipo" es menor al "Monto Total de facturas" la Diferencia se coloque en un campo llamado "Diferencia a   │
+    cobrar" 
